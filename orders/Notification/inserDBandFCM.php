@@ -17,9 +17,8 @@ try {
     $MAX_POST_NO = getDataBySelect("SELECT MAX(POST_NO) AS MAX_POST_NO FROM POST", NULL, NULL);
     $MAX = ($MAX_POST_NO['MAX_POST_NO'] ?? 0);
     foreach ($targets as $t) {
-        $kind = $t['kind'];   // division | section | employee
-        $key  = $t['key'];    // co_1_div_10_sec_3 .. الخ
-
+        $kind = $t['kind'];
+        $key  = $t['key'];
         $companyNo = $t['companyNo'] ?? null;
         $divCode   = $t['divCode']   ?? null;
         $secCode   = $t['secCode']   ?? null;
@@ -32,10 +31,9 @@ try {
             "SEC_CODE" => $secCode,
             "PFNO" => $pfno
         ];
-
         insertData("POST_TARGET", $data, null, null);
 
-        sendNotification("$title", "$body", "$key", "../..");
+        // sendNotification("$title", "$body", "$key", "../..");
     }
     printSuccess();
 } catch (Exception $e) {

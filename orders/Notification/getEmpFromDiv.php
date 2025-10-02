@@ -37,7 +37,7 @@ try {
             $result[$divCode] = [
                 "divId"    => $divCode,
                 "name"     => $divName,
-                "sections" => [] // associative by secCode (سنحولها لاحقاً إلى indexed)
+                "sections" => []
             ];
         }
 
@@ -67,7 +67,7 @@ try {
     // تجهيز الاستجابة
     $response = [
         "status" => "success",
-        "data"   => array_values($result) // تحويل الفروع نفسها إلى مصفوفة مرقّمة
+        "data"   => array_values($result)
     ];
 
     echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
@@ -75,64 +75,3 @@ try {
     // في حالة عدم وجود بيانات أو فشل الجلب
     printFailure();
 }
-
-
-// include "../../index.php";
-
-// // جلب جميع البيانات للموظفين
-// $data = getAllData('VEMPLOYEES', 'EMPLOYEE_STATUS = 1', null, false);
-
-// if ($data !== false) {
-//     $result = [];
-
-//     // التكرار عبر البيانات
-//     foreach ($data as $row) {
-//         $divCode = $row['DIV_CODE'];
-//         $divName = $row['DIV_NAME'];
-//         $secCode = $row['SEC_CODE'];
-//         $secName = $row['SEC_NAME'];
-//         $pfno    = $row['PFNO'];
-//         $empName = $row['EMP_NAME'];
-
-//         // إذا لم يكن الفرع موجودًا في النتيجة، قم بإنشائه
-//         if (!isset($result[$divCode])) {
-//             $result[$divCode] = [
-//                 "divId" => $divCode,
-//                 "name" => $divName,
-//                 "sections" => []
-//             ];
-//         }
-
-//         // إذا لم يكن القسم موجودًا في الفرع، قم بإنشائه (إضافة secId)
-//         if (!isset($result[$divCode]["sections"][$secCode])) {
-//             $result[$divCode]["sections"][$secCode] = [
-//                 "secId" => $secCode, // إضافة secId
-//                 "name" => $secName,
-//                 "employees" => []
-//             ];
-//         }
-
-//         // إضافة الموظف إلى القسم
-//         $result[$divCode]["sections"][$secCode]["employees"][] = [
-//             "PFNO" => $pfno,
-//             "EMP_NAME" => $empName
-//         ];
-//     }
-
-//     foreach ($result as $data) {
-//         array_values($data["sections"]);
-//         $result[$data["divId"]]["sections"] = array_values($data["sections"]);
-//     }
-//     // echo json_encode(array_values($result));
-//     // إرسال النتيجة في شكل JSON
-//     $response = [
-//         "status" => "success",
-//         "data" => array_values($result) // لتحويل الفروع إلى مصفوفة
-//     ];
-
-//     // طباعة النتيجة
-//     echo json_encode($response);
-// } else {
-//     // في حالة عدم وجود بيانات
-//     printFailure();
-// }

@@ -23,7 +23,7 @@ function getAllDataBySelect($query, $values = null, $josn = true)
         if ($count > 0) {
             echo json_encode(array("status" => "success", "data" => $data));
         } else {
-            echo json_encode(array("status" => "failure", "data" => "none"));
+            echo json_encode(array("status" => "failure", "data" => "none", "message" => "لا يوجد بيانات"));
         }
     } else {
         if ($count > 0) {
@@ -48,7 +48,7 @@ function getDataBySelect($query, $values = null, $josn = true)
             if ($count > 0) {
                 echo json_encode(array("status" => "success", "data" => $data));
             } else {
-                echo json_encode(array("status" => "failure", "data" => "none"));
+                echo json_encode(array("status" => "failure", "data" => "none", "message" => "لا يوجد بيانات"));
             }
         } else {
             if ($count > 0) {
@@ -61,7 +61,7 @@ function getDataBySelect($query, $values = null, $josn = true)
         }
     } else {
         if ($josn == true) {
-            echo json_encode(array("status" => "failure", "data" => "none"));
+            echo json_encode(array("status" => "failure", "data" => "none", "message" => "لا يوجد بيانات"));
         } else {
             return false;
         }
@@ -257,7 +257,7 @@ function getAllData($table, $where = null, $values = null, $josn = true)
         if ($count > 0) {
             echo json_encode(array("status" => "success", "data" => $data));
         } else {
-            echo json_encode(array("status" => "failure", "data" => "none"));
+            echo json_encode(array("status" => "failure", "data" => "none", "message" => "لا يوجد بيانات"));
         }
     } else {
         if ($count > 0) {
@@ -282,9 +282,9 @@ function getData($table, $where = null, $values = null, $josn = true)
         }
     } else {
         if ($josn == true) {
-            echo json_encode(array("status" => "failure"));
+            echo json_encode(array("status" => "failure", "message" => "لا يوجد بيانات"));
         } else {
-            return json_encode(array("status" => "failure"));
+            return 0;
         }
     }
 }
@@ -432,7 +432,7 @@ function updateData($table, $data, $where, $json = true)
         if ($count > 0) {
             echo json_encode(array("status" => "success"));
         } else {
-            echo json_encode(array("status" => "failure"));
+            echo json_encode(array("status" => "failure", "message" => "لم يتم التحديث"));
         }
     }
     // return $count;
