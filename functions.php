@@ -454,30 +454,30 @@ function deleteData($table, $where, $json = true)
     return $count;
 }
 
-function imageUpload($dir, $imageRequest)
-{
-    global $msgError;
-    $imagename  = rand(10, 10000) . $_FILES[$imageRequest]['name'];
-    $imagetmp   = $_FILES[$imageRequest]['tmp_name'];
-    $imagesize  = $_FILES[$imageRequest]['size'];
-    $allowExt   = array("jpg", "png", "gif", "mp3", "pdf");
-    $strToArray = explode(".", $imagename);
-    $ext        = end($strToArray);
-    $ext        = strtolower($ext);
+// function imageUpload($dir, $imageRequest)
+// {
+//     global $msgError;
+//     $imagename  = rand(10, 10000) . $_FILES[$imageRequest]['name'];
+//     $imagetmp   = $_FILES[$imageRequest]['tmp_name'];
+//     $imagesize  = $_FILES[$imageRequest]['size'];
+//     $allowExt   = array("jpg", "png", "gif");
+//     $strToArray = explode(".", $imagename);
+//     $ext        = end($strToArray);
+//     $ext        = strtolower($ext);
 
-    if (!empty($imagename) && !in_array($ext, $allowExt)) {
-        $msgError = "Exit";
-    }
-    if ($imagesize > 2 * MB) {
-        $msgError = "size select a file less than 2 MB";
-    }
-    if (empty($msgError)) {
-        move_uploaded_file($imagetmp,  "$dir/" . $imagename);
-        return $imagename;
-    } else {
-        return "fail";
-    }
-}
+//     if (!empty($imagename) && !in_array($ext, $allowExt)) {
+//         $msgError = "Exit";
+//     }
+//     if ($imagesize > 2 * MB) {
+//         $msgError = "size select a file less than 2 MB";
+//     }
+//     if (empty($msgError)) {
+//         move_uploaded_file($imagetmp,  "$dir/" . $imagename);
+//         return $imagename;
+//     } else {
+//         return "fail";
+//     }
+// }
 
 
 function deleteFile($dir, $imagename)
@@ -486,6 +486,40 @@ function deleteFile($dir, $imagename)
         unlink($dir . "/" . $imagename);
     }
 }
+
+function imageUpload($dir, $imageRequest, $pfNo)
+{
+    global $msgError;
+    $imagetmp   = $_FILES[$imageRequest]['tmp_name'];
+    $imagesize  = $_FILES[$imageRequest]['size'];
+
+    $allowExt   = array("jpg", "png", "gif", "jpeg");
+    $strToArray = explode(".", $_FILES[$imageRequest]['name']);
+    $ext        = strtolower(end($strToArray));
+
+    if (!in_array($ext, $allowExt)) {
+        $msgError = "امتداد غير مسموح";
+    }
+    if ($imagesize > 2 * MB) {
+        $msgError = "الملف كبير جداً (أقصى 2MB)";
+    }
+
+    if (empty($msgError)) {
+        // 👇 اسم موحّد: رقم المستخدم + avatar + الامتداد
+        $imagename = $pfNo . "_avatar." . $ext;
+
+        // حذف أي صورة سابقة بنفس الاسم (عشان يستبدلها)
+        if (file_exists("$dir/$imagename")) {
+            unlink("$dir/$imagename");
+        }
+
+        move_uploaded_file($imagetmp, "$dir/" . $imagename);
+        return $imagename;
+    } else {
+        return "fail";
+    }
+}
+
 
 function checkAuthenticate()
 {

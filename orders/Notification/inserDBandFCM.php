@@ -37,6 +37,6 @@ try {
     }
     printSuccess();
 } catch (Exception $e) {
-    // printFailure($e->getMessage());
+
     printFailure("هناك مشكله في التنفيذ اعدالمحاولة");
 }

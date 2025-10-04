@@ -1,5 +1,5 @@
 <?php
-include "index.php";
+include "../../index.php";
 
 
 $pfNo = filterRequest("pfNo");
@@ -7,7 +7,6 @@ $divCode = filterRequest("divCode");
 $secCode = filterRequest("secCode");
 
 getAllDataBySelect("SELECT 
-    POST_NO,
     TITLE,
     BODY,
     ADMIN_PFNO,
